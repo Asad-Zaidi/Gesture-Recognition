@@ -1,1 +1,1 @@
-# Gesture-Recognition
+# Hand Gesture Recognition System
