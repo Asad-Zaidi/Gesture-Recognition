@@ -17,7 +17,7 @@ if not os.path.exists(folder):
     os.makedirs(folder)
 
 while True:
-    ret, img = cap.read
+    ret, img = cap.read()
     hands, img = detector.findHands(img)
     if hands:
         hand = hands[0]
