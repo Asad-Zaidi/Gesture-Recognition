@@ -4,11 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="77d43715-842a-4a0c-8a6b-d853a6b8ef94" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pythonProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pythonProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataCollection.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataCollection.py" afterDir="false" />
+    <list default="true" id="aa14c717-bb5c-4c28-b0ca-55435a31e371" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Data/1/1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/1/20200507_163707.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/1/20200507_164700(0).jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/1/20200507_165433.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/1/20200507_165745.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/1/Image_1715311032.7896967.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/1/Image_1715311036.799338.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/1/Image_1715311041.69488.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/2/20200507_163732.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/2/20200507_164500.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/2/20200507_164710.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/2/20200507_165439.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/2/20200507_165749.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/2/Image_1715311188.246014.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/3/20200507_163740.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/3/20200507_163753.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/3/20200507_164509.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/3/20200507_165443.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Data/3/20200507_165754.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Model/keras_model.h5" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Model/labels.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/temp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,14 +44,14 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Asad-Zaidi/Gesture-Recognition.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/Asad-Zaidi/pythonProject.git&quot;,
     &quot;accountId&quot;: &quot;b09b86dc-5c02-4ba2-a6a9-28f7aa61ab8b&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 3
+  &quot;associatedIndex&quot;: 8
 }</component>
-  <component name="ProjectId" id="2gBqCDP4jniqi3keeaP9TlXpBXz" />
+  <component name="ProjectId" id="2gC6tSUcjhn7vLfTkIqoKUT5Nt6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -43,13 +61,13 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;Python.dataCollection.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Gesture-Recognition&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/syeda/Downloads/Compressed/hand-gesture-recognition-mediapipe-main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -74,7 +92,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\syeda\PycharmProjects\pythonProject\dataCollection.py" />
+      <option name="SCRIPT_NAME" value="D:\pythonProject\dataCollection.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -95,37 +113,45 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="77d43715-842a-4a0c-8a6b-d853a6b8ef94" name="Changes" comment="" />
-      <created>1715181191645</created>
+      <changelist id="aa14c717-bb5c-4c28-b0ca-55435a31e371" name="Changes" comment="" />
+      <created>1715189428001</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1715181191645</updated>
-      <workItem from="1715181197178" duration="4343000" />
-      <workItem from="1715185690441" duration="291000" />
-      <workItem from="1715186329111" duration="313000" />
-      <workItem from="1715187094225" duration="1601000" />
-      <workItem from="1715188811179" duration="111000" />
-      <workItem from="1715188923974" duration="265000" />
-      <workItem from="1715189349404" duration="130000" />
+      <updated>1715189428001</updated>
+      <workItem from="1715189433750" duration="3638000" />
+      <workItem from="1715217078589" duration="7239000" />
+      <workItem from="1715310311141" duration="1457000" />
+      <workItem from="1715311848433" duration="1204000" />
+      <workItem from="1715665695473" duration="521000" />
+      <workItem from="1715666334501" duration="2002000" />
+      <workItem from="1715696054406" duration="2556000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WfRunsListSearchHistory"><![CDATA[{
   "history": [
+    {
+      "branch": "master",
+      "currentBranchFilter": true
+    },
+    {
+      "branch": "main",
+      "currentBranchFilter": true
+    },
+    {
+      "branch": "main",
+      "currentBranchFilter": true
+    },
+    {
+      "branch": "main",
+      "currentBranchFilter": true
+    },
     {
       "branch": "main",
       "currentBranchFilter": true
@@ -149,8 +175,7 @@
   }
 }]]></component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/dataCollection_py$dataCollection.coverage" NAME="dataCollection Coverage Results" MODIFIED="1715189357086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Gesture_Recognition$dataCollection.coverage" NAME="dataCollection Coverage Results" MODIFIED="1715188746961" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/pythonProject$main.coverage" NAME="dataCollection Coverage Results" MODIFIED="1715185542496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pythonProject$dataCollection.coverage" NAME="dataCollection Coverage Results" MODIFIED="1715700772665" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pythonProject$main.coverage" NAME="dataCollection Coverage Results" MODIFIED="1715277720795" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

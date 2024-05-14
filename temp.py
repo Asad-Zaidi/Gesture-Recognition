@@ -5,8 +5,8 @@ import math
 import time
 import os
 
-cap = cv2.VideoCapture(1)
-detector = HandDetector(maxHands=1)
+cap = cv2.VideoCapture(1)  # Change to 0 if you're using the built-in webcam
+detector = HandDetector(maxHands=1, detectionCon=0.2)
 
 offset = 25
 imgSize = 480
@@ -19,6 +19,7 @@ if not os.path.exists(folder):
 while True:
     ret, img = cap.read()
     hands, img = detector.findHands(img)
+    
     if hands:
         hand = hands[0]
         x, y, w, h = hand['bbox']
@@ -27,16 +28,15 @@ while True:
 
         imgCropShape = imgCrop.shape
 
-        aspectRatio = h/w
+        aspectRatio = h / w
 
         if aspectRatio > 1:
-            k = imgSize/h
-            wCal = math.ceil(k*w)
-            # print("Width Cal:", wCal)
+            k = imgSize / h
+            wCal = math.ceil(k * w)
             imgResize = cv2.resize(imgCrop, (wCal, imgSize))
             imgResizeShape = imgResize.shape
-            wGap = math.ceil((imgSize-wCal)/2)
-            imgWhite[:, wGap:wCal+wGap] = imgResize
+            wGap = math.ceil((imgSize - wCal) / 2)
+            imgWhite[:, wGap:wCal + wGap] = imgResize
         else:
             k = imgSize / w
             hCal = math.ceil(k * h)
@@ -45,15 +45,17 @@ while True:
             hGap = math.ceil((imgSize - hCal) / 2)
             imgWhite[hGap:hCal + hGap, :] = imgResize
 
+        fingers = detector.fingersUp(hand)
+        finger_count = fingers.count(1)
+
+        cv2.putText(img, f"Fingers: {finger_count}", (x + 10, y - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+
         cv2.imshow('ImageCrop', imgCrop)
         cv2.imshow('ImageWhite', imgWhite)
 
     cv2.imshow('frame', img)
     key = cv2.waitKey(1)
-    # if key == ord("s"):
-    #     counter += 1
-    #     cv2.imwrite(f'{folder}/Image_{time.time()}.jpg',imgWhite)
-    #     print(counter)
+    
     if key == ord("s"):
         counter += 1
         timestamp = time.time()
@@ -64,3 +66,9 @@ while True:
             print(f"Error saving image: {folder}")
 
         print(counter)
+    
+    if key == 27:  # Press Esc key to exit
+        break
+
+cap.release()
+cv2.destroyAllWindows()

@@ -3,20 +3,20 @@ from cvzone.HandTrackingModule import HandDetector
 from cvzone.ClassificationModule import Classifier
 import numpy as np
 import math
-# import time
 import os
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 detector = HandDetector(maxHands=1)
+
 classifier = Classifier("Model/keras_model.h5", "Model/labels.txt")
 
-offset = 20
-imgSize = 300
+offset = 25
+imgSize = 480
 counter = 0
 
-label = ["A", "B", "C"]
+labels = ["1", "2", "3"]
 
-folder = "Data/C"
+folder = "Data/5"
 if not os.path.exists(folder):
     os.makedirs(folder)
 
@@ -41,10 +41,9 @@ while True:
             imgResizeShape = imgResize.shape
             wGap = math.ceil((imgSize-wCal)/2)
             imgWhite[:, wGap:wCal+wGap] = imgResize
-
             prediction, index = classifier.getPrediction(img)
             print(prediction, index)
-
+            
         else:
             k = imgSize / w
             hCal = math.ceil(k * h)
