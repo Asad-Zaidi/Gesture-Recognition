@@ -41,10 +41,16 @@ class HandRecognitionApp:
         self.running = False
 
     def start_recognition(self):
-        self.start_button.config(state="disabled")
-        self.stop_button.config(state="normal")
-        self.recognition_thread = threading.Thread(target=self.recognize_hand)
-        self.recognition_thread.start()
+        if self.recognition_thread is None or not self.recognition_thread.is_alive():
+            self.cap.release()  # Release camera resource before reopening
+            self.cap.open(1)  # Reopen the camera
+            self.prevTime = time.time()  # Reset prevTime
+            self.start_button.config(state="disabled")
+            self.stop_button.config(state="normal")
+            self.recognition_thread = threading.Thread(target=self.recognize_hand)
+            self.recognition_thread.start()
+        else:
+            messagebox.showinfo("Info", "Recognition is already running.")
 
     def stop_recognition(self):
         self.start_button.config(state="normal")
@@ -62,7 +68,7 @@ class HandRecognitionApp:
             
             hands, img = self.detector.findHands(img)
             sum_fingers = 0
-            hand_info_text = "Hand Info:\n"
+            hand_info_text = "Hand Info: \n"
             for i, hand in enumerate(hands):
                 x, y, w, h = hand['bbox']
                 fingers = self.detector.fingersUp(hand)
@@ -70,10 +76,10 @@ class HandRecognitionApp:
                 sum_fingers += finger_count
 
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                cv2.putText(img, f"Fingers: {finger_count}", (x + 10, y + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                cv2.putText(img, f"\nFingers: {finger_count}", (x + 10, y + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
-                hand_info_text += f"Hand {i+1}: {finger_count} fingers\n"
-            hand_info_text += f"Sum of all counts: {sum_fingers}\n"
+                hand_info_text += f"Hand {i+1}: {finger_count} fingers \n"
+            hand_info_text += f"Sum of all counts: {sum_fingers} \n"
 
             # Calculate FPS
             currentTime = time.time()
