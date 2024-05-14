@@ -40,11 +40,11 @@ python main.py
 
 #### Features
 
-1.Real-time hand detection and finger counting
-2.Display of individual finger counts for each hand
-3.Calculation of the sum of all finger counts
-4.Display of frames per second (FPS) on the video feed
-5.Saving captured images with hand overlays
+- Real-time hand detection and finger counting
+- Display of individual finger counts for each hand
+- Calculation of the sum of all finger counts
+- Display of frames per second (FPS) on the video feed
+- Saving captured images with hand overlays
 
 ##### License
 
