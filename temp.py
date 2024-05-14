@@ -16,6 +16,8 @@ folder = "Data/5"
 if not os.path.exists(folder):
     os.makedirs(folder)
 
+prevTime = 0  # Initialize prevTime for FPS calculation
+
 while True:
     ret, img = cap.read()
     hands, img = detector.findHands(img)
@@ -48,7 +50,17 @@ while True:
         fingers = detector.fingersUp(hand)
         finger_count = fingers.count(1)
 
-        cv2.putText(img, f"Fingers: {finger_count}", (x + 10, y - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+        # Add finger count text with black background and white text color
+        cv2.rectangle(img, (10, 10), (100, 40), (0, 0, 0), -1)
+        cv2.putText(img, f"Fingers: {finger_count}", (20, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+
+        # Calculate FPS
+        currentTime = time.time()
+        fps = 1 / (currentTime - prevTime)
+        prevTime = currentTime  # Update prevTime for the next iteration
+
+        # Display FPS on top-left corner
+        cv2.putText(img, f"FPS: {int(fps)}", (10, 70), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
 
         cv2.imshow('ImageCrop', imgCrop)
         cv2.imshow('ImageWhite', imgWhite)
