@@ -23,7 +23,12 @@ class HandRecognitionApp:
         self.finger_label = tk.Label(root, text="Fingers: 0")
         self.finger_label.pack(pady=5)
 
-        self.cap = cv2.VideoCapture(1)  # Change to 1 if you're using an external webcam
+        self.cap = cv2.VideoCapture(1)  # Change to 0 if you're using an internal webcam
+        if not self.cap.isOpened():
+            messagebox.showerror("Error", "Failed to open camera.")
+            self.root.destroy()
+            return
+        
         self.detector = HandDetector(maxHands=1, detectionCon=0.2)
         self.offset = 25
         self.imgSize = 480
@@ -50,8 +55,12 @@ class HandRecognitionApp:
         self.running = True
         while self.running:
             ret, img = self.cap.read()
-            hands, img = self.detector.findHands(img)
+            if not ret:
+                messagebox.showerror("Error", "Failed to capture frame from camera.")
+                self.running = False
+                break
             
+            hands, img = self.detector.findHands(img)
             if hands:
                 hand = hands[0]
                 x, y, w, h = hand['bbox']
@@ -63,33 +72,37 @@ class HandRecognitionApp:
                 if aspectRatio > 1:
                     k = self.imgSize / h
                     wCal = math.ceil(k * w)
-                    imgResize = cv2.resize(imgCrop, (wCal, self.imgSize))
+                    imgResize = cv2.resize(imgCrop, (wCal, self.imgSize))[:self.imgSize, :]
                     wGap = math.ceil((self.imgSize - wCal) / 2)
                     imgWhite[:, wGap:wCal + wGap] = imgResize
                 else:
                     k = self.imgSize / w
                     hCal = math.ceil(k * h)
-                    imgResize = cv2.resize(imgCrop, (self.imgSize, hCal))
+                    imgResize = cv2.resize(imgCrop, (self.imgSize, hCal))[:, :self.imgSize]
                     hGap = math.ceil((self.imgSize - hCal) / 2)
                     imgWhite[hGap:hCal + hGap, :] = imgResize
 
                 fingers = self.detector.fingersUp(hand)
                 finger_count = fingers.count(1)
 
-                cv2.putText(img, f"Fingers: {finger_count}", (x + 10, y - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+                self.finger_label.config(text=f"Fingers: {finger_count}")
+
+                cv2.rectangle(img, (10, 10), (130, 50), (0, 0, 255), -1)
+                cv2.putText(img, f"Fingers: {finger_count}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+
+                # Calculate FPS
+                currentTime = time.time()
+                fps = 1 / (currentTime - self.prevTime)
+                self.prevTime = currentTime
+
+                # Display FPS on frame window
+                cv2.rectangle(img, (10, 70), (130, 110), (0, 255, 0), -1)
+                cv2.putText(img, f"FPS: {int(fps)}", (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
 
                 cv2.imshow('ImageCrop', imgCrop)
                 cv2.imshow('ImageWhite', imgWhite)
 
             cv2.imshow('frame', img)
-
-            # Calculate FPS
-            currentTime = time.time()
-            fps = 1 / (currentTime - self.prevTime)
-            self.prevTime = currentTime
-
-            # Display FPS on frame window
-            cv2.putText(img, f"FPS: {int(fps)}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
 
             key = cv2.waitKey(1)
             
