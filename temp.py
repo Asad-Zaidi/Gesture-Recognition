@@ -1,86 +1,110 @@
+import tkinter as tk
+from tkinter import messagebox
 import cv2
 from cvzone.HandTrackingModule import HandDetector
 import numpy as np
 import math
 import time
 import os
+import threading
 
-cap = cv2.VideoCapture(1)  # Change to 0 if you're using the built-in webcam
-detector = HandDetector(maxHands=1, detectionCon=0.2)
+class HandRecognitionApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Hand Recognition")
+        self.root.geometry("300x250")
 
-offset = 25
-imgSize = 480
-counter = 0
+        self.start_button = tk.Button(root, text="Start Recognition", command=self.start_recognition)
+        self.start_button.pack(pady=10)
 
-folder = "Data/5"
-if not os.path.exists(folder):
-    os.makedirs(folder)
+        self.stop_button = tk.Button(root, text="Stop Recognition", command=self.stop_recognition, state="disabled")
+        self.stop_button.pack(pady=5)
 
-prevTime = 0  # Initialize prevTime for FPS calculation
+        self.finger_label = tk.Label(root, text="Fingers: 0")
+        self.finger_label.pack(pady=5)
 
-while True:
-    ret, img = cap.read()
-    hands, img = detector.findHands(img)
-    
-    if hands:
-        hand = hands[0]
-        x, y, w, h = hand['bbox']
-        imgWhite = np.ones((imgSize, imgSize, 3), np.uint8) * 255
-        imgCrop = img[y - offset:y + h + offset, x - offset:x + w + offset]
+        self.cap = cv2.VideoCapture(1)  # Change to 1 if you're using an external webcam
+        self.detector = HandDetector(maxHands=1, detectionCon=0.2)
+        self.offset = 25
+        self.imgSize = 480
+        self.folder = "Data/5"
+        if not os.path.exists(self.folder):
+            os.makedirs(self.folder)
+        
+        self.recognition_thread = None
+        self.prevTime = 0
+        self.running = False
 
-        imgCropShape = imgCrop.shape
+    def start_recognition(self):
+        self.start_button.config(state="disabled")
+        self.stop_button.config(state="normal")
+        self.recognition_thread = threading.Thread(target=self.recognize_hand)
+        self.recognition_thread.start()
 
-        aspectRatio = h / w
+    def stop_recognition(self):
+        self.start_button.config(state="normal")
+        self.stop_button.config(state="disabled")
+        self.running = False
 
-        if aspectRatio > 1:
-            k = imgSize / h
-            wCal = math.ceil(k * w)
-            imgResize = cv2.resize(imgCrop, (wCal, imgSize))
-            imgResizeShape = imgResize.shape
-            wGap = math.ceil((imgSize - wCal) / 2)
-            imgWhite[:, wGap:wCal + wGap] = imgResize
-        else:
-            k = imgSize / w
-            hCal = math.ceil(k * h)
-            imgResize = cv2.resize(imgCrop, (imgSize, hCal))
-            imgResizeShape = imgResize.shape
-            hGap = math.ceil((imgSize - hCal) / 2)
-            imgWhite[hGap:hCal + hGap, :] = imgResize
+    def recognize_hand(self):
+        self.running = True
+        while self.running:
+            ret, img = self.cap.read()
+            hands, img = self.detector.findHands(img)
+            
+            if hands:
+                hand = hands[0]
+                x, y, w, h = hand['bbox']
+                imgWhite = np.ones((self.imgSize, self.imgSize, 3), np.uint8) * 255
+                imgCrop = img[y - self.offset:y + h + self.offset, x - self.offset:x + w + self.offset]
 
-        fingers = detector.fingersUp(hand)
-        finger_count = fingers.count(1)
+                aspectRatio = h / w
 
-        # Add finger count text with black background and white text color
-        cv2.rectangle(img, (10, 10), (100, 40), (0, 0, 0), -1)
-        cv2.putText(img, f"Fingers: {finger_count}", (20, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+                if aspectRatio > 1:
+                    k = self.imgSize / h
+                    wCal = math.ceil(k * w)
+                    imgResize = cv2.resize(imgCrop, (wCal, self.imgSize))
+                    wGap = math.ceil((self.imgSize - wCal) / 2)
+                    imgWhite[:, wGap:wCal + wGap] = imgResize
+                else:
+                    k = self.imgSize / w
+                    hCal = math.ceil(k * h)
+                    imgResize = cv2.resize(imgCrop, (self.imgSize, hCal))
+                    hGap = math.ceil((self.imgSize - hCal) / 2)
+                    imgWhite[hGap:hCal + hGap, :] = imgResize
 
-        # Calculate FPS
-        currentTime = time.time()
-        fps = 1 / (currentTime - prevTime)
-        prevTime = currentTime  # Update prevTime for the next iteration
+                fingers = self.detector.fingersUp(hand)
+                finger_count = fingers.count(1)
 
-        # Display FPS on top-left corner
-        cv2.putText(img, f"FPS: {int(fps)}", (10, 70), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+                cv2.putText(img, f"Fingers: {finger_count}", (x + 10, y - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
 
-        cv2.imshow('ImageCrop', imgCrop)
-        cv2.imshow('ImageWhite', imgWhite)
+                cv2.imshow('ImageCrop', imgCrop)
+                cv2.imshow('ImageWhite', imgWhite)
 
-    cv2.imshow('frame', img)
-    key = cv2.waitKey(1)
-    
-    if key == ord("s"):
-        counter += 1
-        timestamp = time.time()
-        file_path = os.path.join(folder, f'Image_{timestamp}.jpg')
-        if cv2.imwrite(file_path, imgWhite):
-            print(f"Image saved successfully: {folder}")
-        else:
-            print(f"Error saving image: {folder}")
+            cv2.imshow('frame', img)
 
-        print(counter)
-    
-    if key == 27:  # Press Esc key to exit
-        break
+            # Calculate FPS
+            currentTime = time.time()
+            fps = 1 / (currentTime - self.prevTime)
+            self.prevTime = currentTime
 
-cap.release()
-cv2.destroyAllWindows()
+            # Display FPS on frame window
+            cv2.putText(img, f"FPS: {int(fps)}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+
+            key = cv2.waitKey(1)
+            
+            if key == ord("s"):
+                timestamp = time.time()
+                file_path = os.path.join(self.folder, f'Image_{timestamp}.jpg')
+                if cv2.imwrite(file_path, imgWhite):
+                    messagebox.showinfo("Image Saved", f"Image saved successfully: {self.folder}")
+                else:
+                    messagebox.showerror("Error", f"Error saving image: {self.folder}")
+
+        self.cap.release()
+        cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = HandRecognitionApp(root)
+    root.mainloop()
