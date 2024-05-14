@@ -29,7 +29,7 @@ class HandRecognitionApp:
             self.root.destroy()
             return
         
-        self.detector = HandDetector(maxHands=1, detectionCon=0.2)
+        self.detector = HandDetector(maxHands=2, detectionCon=0.2)
         self.offset = 25
         self.imgSize = 480
         self.folder = "Data/5"
@@ -61,46 +61,15 @@ class HandRecognitionApp:
                 break
             
             hands, img = self.detector.findHands(img)
-            if hands:
-                hand = hands[0]
+            for hand in hands:
                 x, y, w, h = hand['bbox']
-                imgWhite = np.ones((self.imgSize, self.imgSize, 3), np.uint8) * 255
-                imgCrop = img[y - self.offset:y + h + self.offset, x - self.offset:x + w + self.offset]
-
-                aspectRatio = h / w
-
-                if aspectRatio > 1:
-                    k = self.imgSize / h
-                    wCal = math.ceil(k * w)
-                    imgResize = cv2.resize(imgCrop, (wCal, self.imgSize))[:self.imgSize, :]
-                    wGap = math.ceil((self.imgSize - wCal) / 2)
-                    imgWhite[:, wGap:wCal + wGap] = imgResize
-                else:
-                    k = self.imgSize / w
-                    hCal = math.ceil(k * h)
-                    imgResize = cv2.resize(imgCrop, (self.imgSize, hCal))[:, :self.imgSize]
-                    hGap = math.ceil((self.imgSize - hCal) / 2)
-                    imgWhite[hGap:hCal + hGap, :] = imgResize
-
                 fingers = self.detector.fingersUp(hand)
                 finger_count = fingers.count(1)
 
                 self.finger_label.config(text=f"Fingers: {finger_count}")
 
-                cv2.rectangle(img, (10, 10), (130, 50), (0, 0, 255), -1)
-                cv2.putText(img, f"Fingers: {finger_count}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-
-                # Calculate FPS
-                currentTime = time.time()
-                fps = 1 / (currentTime - self.prevTime)
-                self.prevTime = currentTime
-
-                # Display FPS on frame window
-                cv2.rectangle(img, (10, 70), (130, 110), (0, 255, 0), -1)
-                cv2.putText(img, f"FPS: {int(fps)}", (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
-
-                cv2.imshow('ImageCrop', imgCrop)
-                cv2.imshow('ImageWhite', imgWhite)
+                cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                cv2.putText(img, f"Fingers: {finger_count}", (x + 10, y + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
             cv2.imshow('frame', img)
 
@@ -109,7 +78,7 @@ class HandRecognitionApp:
             if key == ord("s"):
                 timestamp = time.time()
                 file_path = os.path.join(self.folder, f'Image_{timestamp}.jpg')
-                if cv2.imwrite(file_path, imgWhite):
+                if cv2.imwrite(file_path, img):
                     messagebox.showinfo("Image Saved", f"Image saved successfully: {self.folder}")
                 else:
                     messagebox.showerror("Error", f"Error saving image: {self.folder}")
