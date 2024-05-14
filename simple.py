@@ -51,7 +51,7 @@ while True:
         finger_count = fingers.count(1)
 
         # Add finger count text with black background and white text color
-        cv2.rectangle(img, (10, 10), (100, 40), (0, 0, 0), -1)
+        cv2.rectangle(img, (10, 10), (150, 40), (0, 0, 0), -1)
         cv2.putText(img, f"Fingers: {finger_count}", (20, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 
         # Calculate FPS

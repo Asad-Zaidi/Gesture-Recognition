@@ -20,8 +20,8 @@ class HandRecognitionApp:
         self.stop_button = tk.Button(root, text="Stop Recognition", command=self.stop_recognition, state="disabled")
         self.stop_button.pack(pady=5)
 
-        self.finger_label = tk.Label(root, text="Fingers: 0")
-        self.finger_label.pack(pady=5)
+        self.hand_info_label = tk.Label(root, text="Hand Info:")
+        self.hand_info_label.pack(pady=5)
 
         self.cap = cv2.VideoCapture(1)  # Change to 0 if you're using an internal webcam
         if not self.cap.isOpened():
@@ -61,15 +61,34 @@ class HandRecognitionApp:
                 break
             
             hands, img = self.detector.findHands(img)
-            for hand in hands:
+            sum_fingers = 0
+            hand_info_text = "Hand Info:\n"
+            for i, hand in enumerate(hands):
                 x, y, w, h = hand['bbox']
                 fingers = self.detector.fingersUp(hand)
                 finger_count = fingers.count(1)
-
-                self.finger_label.config(text=f"Fingers: {finger_count}")
+                sum_fingers += finger_count
 
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 cv2.putText(img, f"Fingers: {finger_count}", (x + 10, y + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+
+                hand_info_text += f"Hand {i+1}: {finger_count} fingers\n"
+            hand_info_text += f"Sum of all counts: {sum_fingers}\n"
+
+            # Calculate FPS
+            currentTime = time.time()
+            fps = 1 / (currentTime - self.prevTime)
+            self.prevTime = currentTime
+
+            # Display FPS on frame window
+            fps_text = f"FPS: {int(fps)}"
+
+            # Overlay hand info and FPS on the frame
+            cv2.rectangle(img, (10, 10), (600, 100), (255, 255, 255), -1)  # White background
+            cv2.putText(img, hand_info_text, (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+            
+            cv2.rectangle(img, (10, 80), (290, 110), (0, 255, 0), -1)  # Green background for FPS
+            cv2.putText(img, fps_text, (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
 
             cv2.imshow('frame', img)
 
