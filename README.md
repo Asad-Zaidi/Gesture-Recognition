@@ -46,6 +46,6 @@ python main.py
 - Display of frames per second (FPS) on the video feed
 - Saving captured images with hand overlays
 
-##### License
+## 📝 License <a name="license"></a>
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is [MIT](./LICENSE) licensed.
