@@ -31,7 +31,7 @@ class HandRecognitionApp:
         self.hand_info_label = tk.Label(root, text="Hand Info:")
         self.hand_info_label.pack(pady=5)
 
-        self.cap = cv2.VideoCapture(1)  # Change to 0 if you're using an internal webcam
+        self.cap = cv2.VideoCapture(0)  # Change to 0 if you're using an internal webcam
         if not self.cap.isOpened():
             messagebox.showerror("Error", "Failed to open camera.")
             self.root.destroy()
