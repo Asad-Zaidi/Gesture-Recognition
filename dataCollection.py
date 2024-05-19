@@ -12,7 +12,7 @@ offset = 25
 imgSize = 480
 counter = 0
 
-folder = "Data/5"
+folder = "Data/C"
 if not os.path.exists(folder):
     os.makedirs(folder)
 

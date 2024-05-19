@@ -8,16 +8,24 @@ import time
 import os
 import threading
 
+
 class HandRecognitionApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Hand Recognition")
         self.root.geometry("300x250")
 
-        self.start_button = tk.Button(root, text="Start Recognition", command=self.start_recognition)
+        self.start_button = tk.Button(
+            root, text="Start Recognition", command=self.start_recognition
+        )
         self.start_button.pack(pady=10)
 
-        self.stop_button = tk.Button(root, text="Stop Recognition", command=self.stop_recognition, state="disabled")
+        self.stop_button = tk.Button(
+            root,
+            text="Stop Recognition",
+            command=self.stop_recognition,
+            state="disabled",
+        )
         self.stop_button.pack(pady=5)
 
         self.hand_info_label = tk.Label(root, text="Hand Info:")
@@ -28,14 +36,14 @@ class HandRecognitionApp:
             messagebox.showerror("Error", "Failed to open camera.")
             self.root.destroy()
             return
-        
+
         self.detector = HandDetector(maxHands=2, detectionCon=0.2)
         self.offset = 25
         self.imgSize = 480
         self.folder = "Data/5"
         if not os.path.exists(self.folder):
             os.makedirs(self.folder)
-        
+
         self.recognition_thread = None
         self.prevTime = 0
         self.running = False
@@ -43,7 +51,7 @@ class HandRecognitionApp:
     def start_recognition(self):
         if self.recognition_thread is None or not self.recognition_thread.is_alive():
             self.cap.release()  # Release camera resource before reopening
-            self.cap.open(1)  # Reopen the camera
+            self.cap.open(0)  # Reopen the camera
             self.prevTime = time.time()  # Reset prevTime
             self.start_button.config(state="disabled")
             self.stop_button.config(state="normal")
@@ -65,18 +73,26 @@ class HandRecognitionApp:
                 messagebox.showerror("Error", "Failed to capture frame from camera.")
                 self.running = False
                 break
-            
+
             hands, img = self.detector.findHands(img)
             sum_fingers = 0
             hand_info_text = "Hand Info: \n"
             for i, hand in enumerate(hands):
-                x, y, w, h = hand['bbox']
+                x, y, w, h = hand["bbox"]
                 fingers = self.detector.fingersUp(hand)
                 finger_count = fingers.count(1)
                 sum_fingers += finger_count
 
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                cv2.putText(img, f"\nFingers: {finger_count}", (x + 10, y + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                cv2.putText(
+                    img,
+                    f"\nFingers: {finger_count}",
+                    (x + 10, y + 30),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.7,
+                    (0, 0, 255),
+                    2,
+                )
 
                 hand_info_text += f"Hand {i+1}: {finger_count} fingers \n"
             hand_info_text += f"Sum of all counts: {sum_fingers} \n"
@@ -90,26 +106,43 @@ class HandRecognitionApp:
             fps_text = f"FPS: {int(fps)}"
 
             # Overlay hand info and FPS on the frame
-            cv2.rectangle(img, (10, 10), (600, 100), (255, 255, 255), -1)  # White background
-            cv2.putText(img, hand_info_text, (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
-            
-            cv2.rectangle(img, (10, 80), (290, 110), (0, 255, 0), -1)  # Green background for FPS
-            cv2.putText(img, fps_text, (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+            cv2.rectangle(
+                img, (10, 10), (600, 100), (255, 255, 255), -1
+            )  # White background
+            cv2.putText(
+                img,
+                hand_info_text,
+                (20, 40),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (0, 0, 0),
+                1,
+            )
 
-            cv2.imshow('frame', img)
+            cv2.rectangle(
+                img, (10, 80), (290, 110), (0, 255, 0), -1
+            )  # Green background for FPS
+            cv2.putText(
+                img, fps_text, (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1
+            )
+
+            cv2.imshow("frame", img)
 
             key = cv2.waitKey(1)
-            
+
             if key == ord("s"):
                 timestamp = time.time()
-                file_path = os.path.join(self.folder, f'Image_{timestamp}.jpg')
+                file_path = os.path.join(self.folder, f"Image_{timestamp}.jpg")
                 if cv2.imwrite(file_path, img):
-                    messagebox.showinfo("Image Saved", f"Image saved successfully: {self.folder}")
+                    messagebox.showinfo(
+                        "Image Saved", f"Image saved successfully: {self.folder}"
+                    )
                 else:
                     messagebox.showerror("Error", f"Error saving image: {self.folder}")
 
         self.cap.release()
         cv2.destroyAllWindows()
+
 
 if __name__ == "__main__":
     root = tk.Tk()
