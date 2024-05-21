@@ -8,7 +8,6 @@ import time
 import os
 import threading
 
-
 class HandRecognitionApp:
     def __init__(self, root):
         self.root = root
@@ -142,7 +141,6 @@ class HandRecognitionApp:
 
         self.cap.release()
         cv2.destroyAllWindows()
-
 
 if __name__ == "__main__":
     root = tk.Tk()
