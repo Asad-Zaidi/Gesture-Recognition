@@ -8,7 +8,6 @@ import time
 import os
 import threading
 
-
 class HandRecognitionApp:
     def __init__(self, root):
         self.root = root
@@ -88,7 +87,7 @@ class HandRecognitionApp:
                     img,
                     f"Fingers: {finger_count}",
                     (x + 10, y + 30),
-                    cv2.FONT_HERSHEY_PLAIN,
+                    cv2.FONT_HERSHEY_SIMPLEX,
                     0.7,
                     (0, 0, 255),
                     2,
@@ -116,7 +115,7 @@ class HandRecognitionApp:
                 img,
                 hand_info_text,
                 (20, 40),
-                cv2.FONT_HERSHEY_PLAIN,
+                cv2.FONT_HERSHEY_SIMPLEX,
                 0.5,
                 (0, 0, 0),
                 1,
@@ -126,7 +125,7 @@ class HandRecognitionApp:
                 img, (10, 80), (290, 110), (0, 255, 0), -1
             )  # Green background for FPS
             cv2.putText(
-                img, fps_text, (20, 100), cv2.FONT_HERSHEY_PLAIN, 0.5, (0, 0, 0), 1
+                img, fps_text, (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1
             )
 
             cv2.imshow("frame", img)
