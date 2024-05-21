@@ -8,6 +8,7 @@ import time
 import os
 import threading
 
+
 class HandRecognitionApp:
     def __init__(self, root):
         self.root = root
@@ -85,7 +86,7 @@ class HandRecognitionApp:
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 cv2.putText(
                     img,
-                    f"\nFingers: {finger_count}",
+                    f"Fingers: {finger_count}",
                     (x + 10, y + 30),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.7,
@@ -93,8 +94,11 @@ class HandRecognitionApp:
                     2,
                 )
 
-                hand_info_text += f"Hand {i+1}: {finger_count} fingers \n"
-            hand_info_text += f"Sum of all counts: {sum_fingers} \n"
+                # hand_info_text += f"Hand {i+1}: {finger_count} fingers"
+                hand_info_text += f" Hand(s) {i+1} "
+                hand_info_text += ": "
+                hand_info_text += f" Finger(s) {finger_count}"
+            hand_info_text += f" Sum of all counts: {sum_fingers}"
 
             # Calculate FPS
             currentTime = time.time()
@@ -141,6 +145,7 @@ class HandRecognitionApp:
 
         self.cap.release()
         cv2.destroyAllWindows()
+
 
 if __name__ == "__main__":
     root = tk.Tk()
