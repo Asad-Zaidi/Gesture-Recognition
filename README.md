@@ -1,4 +1,4 @@
-# Hand Recognition
+# Hand Gestures Recognition
 
 This project demonstrates real-time hand recognition using the OpenCV library and the HandTrackingModule from the cvzone library. It captures video from a webcam, detects hands, counts the number of fingers extended, and displays the results on the screen.
 
