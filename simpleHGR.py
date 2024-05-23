@@ -5,7 +5,7 @@ import math
 import time
 import os
 
-cap = cv2.VideoCapture(1)  # Change to 0 if you're using the built-in webcam
+cap = cv2.VideoCapture(0)  # Change to 0 if you're using the built-in webcam
 detector = HandDetector(maxHands=5, detectionCon=0.2)
 
 offset = 25

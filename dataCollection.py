@@ -5,7 +5,7 @@ import math
 import time
 import os
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 detector = HandDetector(maxHands=1)
 
 offset = 25
