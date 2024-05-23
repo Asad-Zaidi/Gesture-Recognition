@@ -11,11 +11,11 @@ Hand recognition is a crucial component in various applications such as gesture-
 To run this project, you need to install the following dependencies:
 
 - Python (version 3.6 or later)
-- OpenCV (version 4.x or later)
-- cvzone (version 1.5.2 or later)
-- NumPy (version 1.19.5 or later)
+- OpenCV (version 4.6.0.66 or later)
+- cvzone (version 1.5.6 or later)
+- NumPy (version 1.21.6 or later)
 - tkinter (for GUI, usually included with Python installation)
-- TensorFlow (version 9.6.1 or later)
+- TensorFlow (version 2.9.1 or later)
 
 You can install these dependencies using pip:
 
