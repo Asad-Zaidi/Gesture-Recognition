@@ -15,6 +15,7 @@ To run this project, you need to install the following dependencies:
 - cvzone (version 1.5.2 or later)
 - NumPy (version 1.19.5 or later)
 - tkinter (for GUI, usually included with Python installation)
+- TensorFlow (version 9.6.1 or later)
 
 You can install these dependencies using pip:
 
