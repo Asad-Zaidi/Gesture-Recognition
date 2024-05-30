@@ -1,6 +1,6 @@
 # Hand Gestures Recognition
 
-This project demonstrates real-time Hand Gestures Recognition for ASL (American Sign Language) using the OpenCV library and the HandTrackingModule from the cvzone library. It captures video from a webcam, detects hands, counts the number of fingers extended, and displays the results on the screen.
+This project demonstrates real-time Hand Gestures Recognition for ASL (American Sign Language) using the OpenCV library and the HandTrackingModule from the cvzone library. It captures video from a webcam, detects hands, counts the number of fingers and Hand Gestures for ASL, and displays the results on the screen.
 
 ## Introduction
 
